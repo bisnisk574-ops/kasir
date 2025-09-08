@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasir SG CELL</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007bff">
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); transition:0.3s; }
+    :root { --bg:#fff; --text:#000; }
+    body.dark { --bg:#121212; --text:#eaeaea; }
+    header { background:#007bff; color:white; padding:10px; text-align:center; position:relative; }
+    nav { display:flex; justify-content:space-around; background:#f0f0f0; padding:5px; }
+    nav button { padding:8px 12px; border:none; background:#007bff; color:white; border-radius:5px; }
+    section { display:none; padding:15px; }
+    section.active { display:block; }
+    textarea { width:100%; margin-top:10px; }
+    .burger { position:absolute; right:10px; top:10px; background:none; border:none; font-size:20px; color:white; }
+    .menu { display:none; position:absolute; right:10px; top:40px; background:white; border:1px solid #ccc; padding:10px; }
+    .menu a { display:block; margin:5px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kasir SG CELL</h1>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+    <div class="menu" id="burgerMenu">
+      <a href="#">Pembelian</a>
+      <a href="#">Hutang Piutang</a>
+      <a href="#">Stock Barang</a>
+      <a href="#">Audit Stock</a>
+      <a href="#" onclick="toggleDark()">Dark/Light Mode</a>
+    </div>
+  </header>
+
+  <nav>
+    <button onclick="showPage('transaksi')">Transaksi</button>
+    <button onclick="showPage('history')">History</button>
+    <button onclick="showPage('rekap')">Rekap</button>
+  </nav>
+
+  <!-- Transaksi -->
+  <section id="transaksi" class="active">
+    <h2>Transaksi</h2>
+    <input type="text" id="produk" placeholder="Nama produk">
+    <input type="number" id="harga" placeholder="Harga">
+    <button onclick="simpanTransaksi()">Simpan</button>
+  </section>
+
+  <!-- History -->
+  <section id="history">
+    <h2>History Penjualan</h2>
+    <ul id="listHistory"></ul>
+    <textarea id="catatan" placeholder="Tambahkan catatan..."></textarea><br>
+    <button onclick="cetakStruk()">🖨 Print</button>
+    <button onclick="shareTxt()">📄 Share TXT</button>
+    <button onclick="sharePng()">🖼 Share PNG</button>
+    <div id="printArea" style="display:none;"></div>
+  </section>
+
+  <!-- Rekap -->
+  <section id="rekap">
+    <h2>Rekap</h2>
+    <p>Total transaksi: <span id="totalTransaksi">0</span></p>
+    <p>Total omzet: Rp <span id="totalOmzet">0</span></p>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("SW registered"))
+        .catch(err => console.log("SW failed", err));
+    }
+  </script>
+</body>
+</html>
