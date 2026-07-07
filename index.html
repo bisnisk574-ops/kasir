@@ -4,102 +4,116 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MY kasir</title>
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-  </style>
+  <!-- Hubungkan ke file CSS Anda -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- HALAMAN 1: LOGIN -->
-<div id="login-page">
-<div class="login-card">
-  <!-- ICON HUMAN BESAR -->
-  <div style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9);">
-    <i class="fa-solid fa-circle-user fa-5x"></i>
+  <!-- HALAMAN 1: LOGIN -->
+  <div id="login-page">
+    <div class="login-card">
+      <div style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.9);">
+        <i class="fa-solid fa-circle-user fa-5x"></i>
+      </div>
+      <h2 style="margin-top: 0; margin-bottom: 20px;">MY kasir</h2>
+      <input type="text" id="user" placeholder="Username">
+      <input type="password" id="pass" placeholder="Password">
+      <button onclick="login()">Masuk</button>
+    </div>
   </div>
 
-  <h2 style="margin-top: 0; margin-bottom: 20px;">MY kasir</h2>
-  
-  <input type="text" id="user" placeholder="Username">
-  <input type="password" id="pass" placeholder="Password">
-  <button onclick="login()">Masuk</button>
-</div>
-</div>
+  <!-- HALAMAN 2: DASHBOARD -->
+  <div id="dashboard-page" style="display:none;">
+    <div class="header-dash">
+      <h2 id="welcomeMsg">Selamat Datang</h2>
+      <p>MY Kasir</p>
+    </div>
 
-<!-- HALAMAN 2: DASHBOARD -->
-<div id="dashboard-page">
-  <div class="header-dash">
-    <h2 id="welcomeMsg">Selamat Datang</h2>
-    <p>MY Kasir</p>
+    <div class="grid-menu">
+        <div class="menu-item" onclick="openMenu('transaksi')">
+            <i class="fa-solid fa-cash-register fa-2x" style="color: #4f46e5;"></i>
+            <p>Transaksi</p>
+        </div>
+        <div class="menu-item" onclick="openMenu('stok')">
+            <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
+            <p>Stok Barang</p>
+        </div>
+        <div class="menu-item" onclick="openMenu('tambahstok')">
+            <i class="fa-solid fa-plus-circle fa-2x" style="color: #f59e0b;"></i>
+            <p>Tambah Stok</p>
+        </div>
+        <div class="menu-item" onclick="openMenu('pembukuan-hari')">
+            <i class="fa-solid fa-book-open fa-2x" style="color: #8b5cf6;"></i>
+            <p>Pembukuan Hari</p>
+        </div>
+        <div class="menu-item owner-only hidden" onclick="openMenu('analisa')">
+            <i class="fa-solid fa-chart-line fa-2x" style="color: #ec4899;"></i>
+            <p>Analisa</p>
+        </div>
+        <div class="menu-item owner-only hidden" onclick="openMenu('pembukuan-full')">
+            <i class="fa-solid fa-file-invoice-dollar fa-2x" style="color: #ef4444;"></i>
+            <p>Laporan Bulanan</p>
+        </div>
+    </div>
   </div>
 
-<div class="grid-menu">
-    <!-- Transaksi -->
-    <div class="menu-item" onclick="openMenu('transaksi')">
-        <i class="fa-solid fa-cash-register fa-2x" style="color: #4f46e5;"></i>
-        <p>Transaksi</p>
-    </div>
-    
-    <!-- Stok Barang -->
-    <div class="menu-item" onclick="openMenu('stok')">
-        <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
-        <p>Stok Barang</p>
-    </div>
-    
-    <!-- Tambah Stok -->
-    <div class="menu-item" onclick="openMenu('tambahstok')">
-        <i class="fa-solid fa-plus-circle fa-2x" style="color: #f59e0b;"></i>
-        <p>Tambah Stok</p>
-    </div>
-    
-    <!-- Pembukuan Hari Ini -->
-    <div class="menu-item" onclick="openMenu('pembukuan-hari')">
-        <i class="fa-solid fa-book-open fa-2x" style="color: #8b5cf6;"></i>
-        <p>Pembukuan Hari</p>
-    </div>
-    
-    <!-- Analisa (Owner Only) -->
-    <div class="menu-item owner-only hidden" onclick="openMenu('analisa')">
-        <i class="fa-solid fa-chart-line fa-2x" style="color: #ec4899;"></i>
-        <p>Analisa</p>
-    </div>
-    
-    <!-- Laporan Bulanan (Owner Only) -->
-    <div class="menu-item owner-only hidden" onclick="openMenu('pembukuan-full')">
-        <i class="fa-solid fa-file-invoice-dollar fa-2x" style="color: #ef4444;"></i>
-        <p>Laporan Bulanan</p>
-    </div>
-</div>
+  <!-- Area Struk (Tersembunyi) -->
+  <div id="printArea" style="display:none; font-family: monospace; width: 250px; padding: 10px;">
+      <div style="text-align: center;">
+          <h3>MY kasir</h3>
+          <p id="printWaktu"></p>
+          <hr>
+      </div>
+      <div id="printItem"></div>
+      <hr>
+      <p>Kasir: <span id="printKasir"></span></p>
+      <p style="text-align: center;">Terima Kasih</p>
+  </div>
 
-<script>
-  let currentUser = { name: '', role: '' };
+  <script>
+    let currentUser = { name: '', role: '' };
+
+    // Fungsi Login
+    function login() {
+        const u = document.getElementById('user').value.toLowerCase();
+        const p = document.getElementById('pass').value;
+
+        if (u === 'owner' && p === 'owner99') {
+            currentUser = { name: 'Owner', role: 'owner' };
+            initDashboard();
+        } else if (u === 'admin' && p === 'admin') {
+            currentUser = { name: 'Admin', role: 'admin' };
+            initDashboard();
+        } else {
+            alert('Username atau Password salah!');
+        }
+    }
 
     function initDashboard() {
-    document.getElementById('login-page').style.display = 'none';
-    document.getElementById('dashboard-page').style.display = 'block';
-    document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
-    
-    // Tampilkan menu khusus owner jika role-nya owner
-    if (currentUser.role === 'owner') {
-      document.querySelectorAll('.owner-only').forEach(el => el.classList.remove('hidden'));
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('dashboard-page').style.display = 'block';
+        document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
+        
+        if (currentUser.role === 'owner') {
+            document.querySelectorAll('.owner-only').forEach(el => el.classList.remove('hidden'));
+        }
     }
-  }
 
-  function openMenu(menu) {
-    alert("Anda masuk ke: " + menu);
-    // Di sini nanti Anda bisa buat fungsi untuk pindah halaman atau menampilkan popup
-    
-    if (menu === 'pembukuan-hari') {
-        kirimKeWA();
+    function openMenu(menu) {
+        alert("Anda masuk ke: " + menu);
+        if (menu === 'pembukuan-hari') {
+            kirimKeWA();
+        }
     }
-  }
 
-  function kirimKeWA() {
-    const pesan = "Halo Owner, ini laporan pembukuan hari ini: [Data Transaksi...]";
-    const url = `https://wa.me/6287735376239?text=${encodeURIComponent(pesan)}`;
-    window.open(url, '_blank');
-  }
-</script>
+    function kirimKeWA() {
+        const pesan = "Halo Owner, ini laporan pembukuan hari ini: [Data Transaksi...]";
+        const url = `https://wa.me/6287735376239?text=${encodeURIComponent(pesan)}`;
+        window.open(url, '_blank');
+    }
+  </script>
 </body>
 </html>
 </script>
