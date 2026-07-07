@@ -30,15 +30,15 @@
 <div class="header-dash" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
         <h2 id="welcomeMsg">Selamat Datang</h2>
-        <p>Admin Jaga: <span id="displayAdminName">-</span></p>
-    </div>
+
     <!-- TOMBOL LOGOUT -->
     <button onclick="logout()" style="width: auto; padding: 8px 15px; background: #ef4444; border: none; color: white; border-radius: 5px; cursor: pointer;">
         <i class="fa-solid fa-right-from-bracket"></i> Keluar
     </button>
 </div>
-  
-        <p>MY Kasir</p>
+          <p>MY Kasir</p>
+
+          <p>Admin Jaga: <span id="displayAdminName">-</span></p>
     </div>
 
     <div class="grid-menu">
@@ -117,11 +117,12 @@
   <script>
     let currentUser = { name: '', role: '' };
 
-// Fungsi Login Diperbarui
 function login() {
     const u = document.getElementById('user').value.toLowerCase();
     const p = document.getElementById('pass').value;
     const namaAdmin = document.getElementById('inputAdminName').value;
+
+    console.log("Mencoba login dengan nama:", namaAdmin); // Debugging: Cek di F12 Console
 
     if (namaAdmin === "") {
         alert("Mohon isi nama admin yang berjaga!");
@@ -129,11 +130,16 @@ function login() {
     }
 
     if ((u === 'admin' && p === 'admin') || (u === 'owner' && p === 'owner99')) {
-        // Tampilkan Nama Admin
-        document.getElementById('displayAdminName').innerText = namaAdmin;
+        // --- INI BAGIAN PENTING ---
+        const spanDisplay = document.getElementById('displayAdminName');
+        if (spanDisplay) {
+            spanDisplay.innerText = namaAdmin; // Mengganti teks "-" jadi nama
+            console.log("Berhasil mengganti nama admin");
+        } else {
+            console.error("ID displayAdminName tidak ditemukan!"); // Muncul error jika ID salah
+        }
+        
         document.getElementById('welcomeMsg').innerText = "Halo, " + namaAdmin;
-
-        // Pindah ke Dashboard
         document.getElementById('login-page').style.display = 'none';
         document.getElementById('dashboard-main').style.display = 'block';
     } else {
