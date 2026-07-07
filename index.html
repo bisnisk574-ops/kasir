@@ -30,13 +30,8 @@
     <div class="header-dash" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
         <div>
             <h2 id="welcomeMsg">Selamat Datang</h2>
-            <p>Admin Jaga: <span id="displayAdminName">-</span></p>
             <p>MY Kasir</p>
         </div>
-        <button onclick="logout()" style="background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
-            <i class="fa-solid fa-right-from-bracket"></i> Keluar
-        </button>
-    </div>
   
     <div class="grid-menu">
         <div class="menu-item" onclick="switchPage('page-transaksi')">
@@ -172,6 +167,13 @@
         window.open(url, '_blank');
     }
 </script>
+
+<!-- Tombol Keluar di Pojok Kanan Bawah -->
+<div class="logout-fixed">
+    <button onclick="logout()" style="padding: 10px 20px; background: #ef4444; border: none; color: white; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+    </button>
+</div>
 
 </body>
 </html>
