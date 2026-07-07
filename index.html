@@ -3,110 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login MY kasir</title>
+  <title>MY kasir</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* 1. Background Animasi Profesional */
-    body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; }
-    .container {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
-      background-size: 400% 400%;
-      animation: gradient 10s ease infinite;
-    }
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* 2. Card Login */
-    .login-card {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(15px);
-      padding: 40px;
-      border-radius: 25px;
-      text-align: center;
-      width: 320px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: white;
-    }
-
-    /* 3. Logo Upload Area */
-    .logo-area { cursor: pointer; margin-bottom: 20px; }
-    .logo-box {
-      width: 150px; height: 150px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      display: flex; justify-content: center; align-items: center;
-      margin: 0 auto 10px; border: 2px dashed white;
-      overflow: hidden; transition: 0.3s;
-    }
-    .logo-box img { width: 100%; height: 100%; object-fit: cover; }
+    /* CSS Dasar & Modern */
+    body { font-family: 'Segoe UI', sans-serif; margin:0; background: #f4f7f6; }
     
-    /* 4. Form Styling */
-    input { 
-      width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; 
-      border: none; box-sizing: border-box; background: rgba(255,255,255,0.9);
+    /* Login Page (Sama dengan sebelumnya) */
+    #login-page { height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #0f2027, #2c5364); }
+    .login-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; color: white; width: 300px; text-align: center; }
+    
+    /* Dashboard Layout */
+    #dashboard-page { display: none; padding: 20px; }
+    .header-dash { margin-bottom: 20px; }
+    .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .menu-item { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
+    .menu-item:hover { transform: translateY(-5px); }
+    
+    /* Utility */
+    .hidden { display: none; }
+    input, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; border: 1px solid #ccc; }
+
+    .menu-item { 
+    background: white; padding: 20px; border-radius: 20px; 
+    text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+    cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.menu-item p { margin: 0; font-weight: 600; font-size: 14px; }
+
+    @media print {
+    /* Sembunyikan semua elemen di layar */
+    body * { visibility: hidden; }
+    
+    /* Tampilkan hanya area print */
+    #printArea, #printArea * { visibility: visible; }
+    
+    /* Posisikan di pojok kiri atas kertas */
+    #printArea { 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        display: block !important; /* Paksa tampil saat print */
     }
-    .btn-login { 
-      width: 100%; padding: 12px; background: #007bff; color: white; 
-      border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 10px;
-    }
-  </style>
+      }
+    </style>
 </head>
 <body>
 
-<div class="container">
+<!-- HALAMAN 1: LOGIN -->
+<div id="login-page">
   <div class="login-card">
-    <!-- Logo Upload -->
-    <div class="logo-area" onclick="document.getElementById('fileInput').click()">
-      <div class="logo-box" id="logoBox">
-        <i class="fa-solid fa-camera fa-3x" id="cameraIcon"></i>
-        <img id="preview" src="#" style="display:none;">
-      </div>
-      <p style="font-size: 12px; opacity: 0.8;">Klik untuk tambah/ganti Logo</p>
-      <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="previewImage(this)">
-    </div>
-
-    <h2>Login MY kasir</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button class="btn-login" onclick="login()">Masuk Sistem</button>
+    <h2>MY kasir</h2>
+    <input type="text" id="user" placeholder="Username">
+    <input type="password" id="pass" placeholder="Password">
+    <button onclick="login()">Masuk</button>
   </div>
 </div>
 
+<!-- HALAMAN 2: DASHBOARD -->
+<div id="dashboard-page">
+  <div class="header-dash">
+    <h2 id="welcomeMsg">Selamat Datang</h2>
+    <p>MY Kasir</p>
+  </div>
+
+<div class="grid-menu">
+    <!-- Transaksi -->
+    <div class="menu-item" onclick="openMenu('transaksi')">
+        <i class="fa-solid fa-cash-register fa-2x" style="color: #4f46e5;"></i>
+        <p>Transaksi</p>
+    </div>
+    
+    <!-- Stok Barang -->
+    <div class="menu-item" onclick="openMenu('stok')">
+        <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
+        <p>Stok Barang</p>
+    </div>
+    
+    <!-- Tambah Stok -->
+    <div class="menu-item" onclick="openMenu('tambahstok')">
+        <i class="fa-solid fa-plus-circle fa-2x" style="color: #f59e0b;"></i>
+        <p>Tambah Stok</p>
+    </div>
+    
+    <!-- Pembukuan Hari Ini -->
+    <div class="menu-item" onclick="openMenu('pembukuan-hari')">
+        <i class="fa-solid fa-book-open fa-2x" style="color: #8b5cf6;"></i>
+        <p>Pembukuan Hari</p>
+    </div>
+    
+    <!-- Analisa (Owner Only) -->
+    <div class="menu-item owner-only hidden" onclick="openMenu('analisa')">
+        <i class="fa-solid fa-chart-line fa-2x" style="color: #ec4899;"></i>
+        <p>Analisa</p>
+    </div>
+    
+    <!-- Laporan Bulanan (Owner Only) -->
+    <div class="menu-item owner-only hidden" onclick="openMenu('pembukuan-full')">
+        <i class="fa-solid fa-file-invoice-dollar fa-2x" style="color: #ef4444;"></i>
+        <p>Laporan Bulanan</p>
+    </div>
+</div>
+
 <script>
-  // Fungsi Preview Gambar
-  function previewImage(input) {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('preview').src = e.target.result;
-        document.getElementById('preview').style.display = 'block';
-        document.getElementById('cameraIcon').style.display = 'none';
-      }
-      reader.readAsDataURL(input.files[0]);
+  let currentUser = { name: '', role: '' };
+
+  function login() {
+    const u = document.getElementById('user').value.toLowerCase();
+    const p = document.getElementById('pass').value;
+
+    if (u === 'owner' && p === 'owner99') {
+      currentUser = { name: 'Owner', role: 'owner' };
+      initDashboard();
+    } else if (u === 'admin' && p === 'admin') {
+      currentUser = { name: 'Admin', role: 'admin' };
+      initDashboard();
+    } else {
+      alert('Login Gagal');
     }
   }
 
-  // Fungsi Login
-  function login() {
-    const user = document.getElementById('username').value.toLowerCase();
-    const pass = document.getElementById('password').value;
+  function initDashboard() {
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('dashboard-page').style.display = 'block';
+    document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
+    
+    // Tampilkan menu khusus owner jika role-nya owner
+    if (currentUser.role === 'owner') {
+      document.querySelectorAll('.owner-only').forEach(el => el.classList.remove('hidden'));
+    }
+  }
 
-    if ((user === 'owner' && pass === 'owner99') || (user === 'admin' && pass === 'admin')) {
-      alert('Selamat Datang, ' + user.toUpperCase());
-      // Lanjut ke dashboard...
+  function openMenu(menu) {
+    alert("Anda masuk ke: " + menu);
+    // Di sini nanti Anda bisa buat fungsi untuk pindah halaman atau menampilkan popup
+    
+    if (menu === 'pembukuan-hari') {
+        kirimKeWA();
+    }
+  }
+
+  function kirimKeWA() {
+    const pesan = "Halo Owner, ini laporan pembukuan hari ini: [Data Transaksi...]";
+    const url = `https://wa.me/6287735376239?text=${encodeURIComponent(pesan)}`;
+    window.open(url, '_blank');
+  }
+</script>
+</body>
+</html>
     } else {
       alert('Username atau Password salah!');
     }
   }
 </script>
-
+<!-- Area Struk (Disembunyikan) -->
+<div id="printArea" style="display:none; font-family: monospace; width: 250px; padding: 10px;">
+    <div style="text-align: center;">
+        <h3>SG CELL</h3>
+        <p id="printWaktu"></p>
+        <hr>
+    </div>
+    <div id="printItem">
+        <!-- Item akan masuk di sini -->
+    </div>
+    <hr>
+    <p>Kasir: <span id="printKasir"></span></p>
+    <p style="text-align: center;">Terima Kasih</p>
+</div>
 </body>
 </html>
