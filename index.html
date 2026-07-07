@@ -5,66 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MY kasir</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* CSS Dasar & Modern */
-    body { font-family: 'Segoe UI', sans-serif; margin:0; background: #f4f7f6; }
-    
-    /* Login Page (Sama dengan sebelumnya) */
-    #login-page { height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #0f2027, #2c5364); }
-    .login-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 30px; border-radius: 20px; color: white; width: 300px; text-align: center; }
-    
-    /* Dashboard Layout */
-    #dashboard-page { display: none; padding: 20px; }
-.header-dash {
-    text-align: center; /* Membuat semua isi di dalam div ini ke tengah */
-    padding: 30px 20px;
-}
-
-#welcomeMsg {
-    font-size: 2.5rem; /* Ukuran sangat besar */
-    margin: 0;
-    color: #1f2937; /* Warna gelap agar profesional */
-}
-
-.header-dash p {
-    font-size: 1.5rem; /* Ukuran besar untuk sub-judul */
-    margin: 10px 0 0 0;
-    color: #6b7280; /* Warna abu-abu agar elegan */
-    font-weight: 600; /* Sedikit tebal */
-}
-
-    .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .menu-item { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: 0.3s; }
-    .menu-item:hover { transform: translateY(-5px); }
-    
-    /* Utility */
-    .hidden { display: none; }
-    input, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; border: 1px solid #ccc; }
-
-    .menu-item { 
-    background: white; padding: 20px; border-radius: 20px; 
-    text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
-    cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px;
-}
-.menu-item p { margin: 0; font-weight: 600; font-size: 14px; }
-
-    @media print {
-    /* Sembunyikan semua elemen di layar */
-    body * { visibility: hidden; }
-    
-    /* Tampilkan hanya area print */
-    #printArea, #printArea * { visibility: visible; }
-    
-    /* Posisikan di pojok kiri atas kertas */
-    #printArea { 
-        position: absolute; 
-        left: 0; 
-        top: 0; 
-        display: block !important; /* Paksa tampil saat print */
-    }
-      }
-    </style>
+  </style>
 </head>
 <body>
 
@@ -132,24 +74,7 @@
 <script>
   let currentUser = { name: '', role: '' };
 
-  function login() {
-    const u = document.getElementById('user').value.toLowerCase();
-    const p = document.getElementById('pass').value;
-
-    if (u === 'owner' && p === 'owner99') {
-      currentUser = { name: 'Owner', role: 'owner' };
-      initDashboard();
-    } else if (u === 'admin' && p === 'admin') {
-      currentUser = { name: 'Admin', role: 'admin' };
-      initDashboard();
-    } else {
-      alert('Login Gagal');
-    } else {
-      alert('Username atau Password salah!');
-    }
-  }
-
-  function initDashboard() {
+    function initDashboard() {
     document.getElementById('login-page').style.display = 'none';
     document.getElementById('dashboard-page').style.display = 'block';
     document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
@@ -192,5 +117,26 @@
     <p>Kasir: <span id="printKasir"></span></p>
     <p style="text-align: center;">Terima Kasih</p>
 </div>
+<script>
+    function login() {
+        // Ambil nilai dari input
+        const user = document.getElementById('user').value.toLowerCase();
+        const pass = document.getElementById('pass').value;
+
+        // Cek login
+        if ((user === 'owner' && pass === 'owner99') || (user === 'admin' && pass === 'admin')) {
+            // Sembunyikan Login, Tampilkan Dashboard
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'block';
+            
+            // Log untuk debug di console
+            console.log("Login sukses sebagai: " + user);
+        } else {
+            // Jika salah
+            alert('Username atau Password salah!');
+            console.log("Login gagal");
+        }
+    }
+</script>
 </body>
 </html>
