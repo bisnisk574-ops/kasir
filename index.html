@@ -33,7 +33,6 @@
             <p>Admin Jaga: <span id="displayAdminName">-</span></p>
             <p>MY Kasir</p>
         </div>
-        <!-- Tombol Logout pindah ke sini agar rapi -->
         <button onclick="logout()" style="background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
             <i class="fa-solid fa-right-from-bracket"></i> Keluar
         </button>
@@ -67,36 +66,13 @@
     </div>
 </div>
 
-<!-- HALAMAN SUB-PAGE (Setiap ID sudah unik sekarang!) -->
-<div id="page-transaksi" class="sub-page" style="display:none;">
-    <h2>Halaman Transaksi</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
-
-<div id="page-stok" class="sub-page" style="display:none;">
-    <h2>Halaman Stok Barang</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
-
-<div id="page-tambah-stok" class="sub-page" style="display:none;">
-    <h2>Halaman Tambah Stok</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
-
-<div id="page-pembukuan-harian" class="sub-page" style="display:none;">
-    <h2>Halaman Pembukuan Harian</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
-
-<div id="page-analisa" class="sub-page" style="display:none;">
-    <h2>Halaman Analisa</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
-
-<div id="page-pembukuan-full" class="sub-page" style="display:none;">
-    <h2>Halaman Laporan Bulanan</h2>
-    <button onclick="backToDashboard()">Kembali</button>
-</div>
+<!-- SUB-PAGES -->
+<div id="page-transaksi" class="sub-page" style="display:none;"><h2>Transaksi</h2><button onclick="backToDashboard()">Kembali</button></div>
+<div id="page-stok" class="sub-page" style="display:none;"><h2>Stok Barang</h2><button onclick="backToDashboard()">Kembali</button></div>
+<div id="page-tambah-stok" class="sub-page" style="display:none;"><h2>Tambah Stok</h2><button onclick="backToDashboard()">Kembali</button></div>
+<div id="page-pembukuan-harian" class="sub-page" style="display:none;"><h2>Pembukuan Harian</h2><button onclick="backToDashboard()">Kembali</button></div>
+<div id="page-analisa" class="sub-page" style="display:none;"><h2>Analisa</h2><button onclick="backToDashboard()">Kembali</button></div>
+<div id="page-pembukuan-full" class="sub-page" style="display:none;"><h2>Laporan Bulanan</h2><button onclick="backToDashboard()">Kembali</button></div>
 
   <!-- Area Struk (Tersembunyi) -->
   <div id="printArea" style="display:none; font-family: monospace; width: 250px; padding: 10px;">
@@ -116,82 +92,92 @@
         <i class="fa-solid fa-right-from-bracket"></i> Keluar
     </button>
 
-  <script>
+<script>
     let currentUser = { name: '', role: '' };
 
-function login() {
-    const u = document.getElementById('user').value.toLowerCase();
-    const p = document.getElementById('pass').value;
-    const namaAdmin = document.getElementById('inputAdminName').value;
+    // --- FUNGSI LOGIN ---
+    function login() {
+        const u = document.getElementById('user').value.toLowerCase();
+        const p = document.getElementById('pass').value;
+        const namaAdmin = document.getElementById('inputAdminName').value;
 
-    if (namaAdmin === "") {
-        alert("Mohon isi nama admin yang berjaga!");
-        return;
-    }
-
-    if ((u === 'admin' && p === 'admin') || (u === 'owner' && p === 'owner99')) {
-        
-        // Update Nama Admin
-        const spanNama = document.getElementById('displayAdminName');
-        if (spanNama) {
-            spanNama.innerText = namaAdmin;
-            document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + namaAdmin;
+        if (namaAdmin === "") {
+            alert("Mohon isi nama admin yang berjaga!");
+            return;
         }
 
-        // Pindah ke Dashboard
+        if (u === 'admin' && p === 'admin') {
+            currentUser = { name: namaAdmin, role: 'admin' };
+            masukKeDashboard();
+        } else if (u === 'owner' && p === 'owner99') {
+            currentUser = { name: namaAdmin, role: 'owner' };
+            masukKeDashboard();
+        } else {
+            alert('Username atau Password salah!');
+        }
+    }
+
+    // --- FUNGSI TAMPIL DASHBOARD ---
+    function masukKeDashboard() {
+        document.getElementById('displayAdminName').innerText = currentUser.name;
+        document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
+
         document.getElementById('login-page').style.display = 'none';
         document.getElementById('dashboard-main').style.display = 'block';
-        
-    } else {
-        alert('Username atau Password salah!');
-    }
-}
 
-// Fungsi Logout Baru
-function logout() {
-    if (confirm("Apakah Anda yakin ingin keluar?")) {
-        // 1. Sembunyikan Dashboard, Tampilkan Login
-        document.getElementById('dashboard-main').style.display = 'none';
-        document.getElementById('login-page').style.display = 'flex';
-        
-        // 2. Sembunyikan semua sub-page agar bersih
-        document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
-        
-        // 3. Reset input login
-        document.getElementById('user').value = '';
-        document.getElementById('pass').value = '';
-        document.getElementById('inputAdminName').value = '';
-        
-        console.log("User telah logout");
-    }
-}
-
-    function initDashboard() {
-        document.getElementById('login-page').style.display = 'none';
-        document.getElementById('dashboard-page').style.display = 'block';
-        document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + currentUser.name;
-        
         if (currentUser.role === 'owner') {
             document.querySelectorAll('.owner-only').forEach(el => el.classList.remove('hidden'));
         }
     }
 
-    function openMenu(menu) {
-        alert("Anda masuk ke: " + menu);
-        if (menu === 'pembukuan-hari') {
-            kirimKeWA();
+    // --- FUNGSI LOGOUT ---
+    function logout() {
+        if (confirm("Apakah Anda yakin ingin keluar?")) {
+            document.getElementById('dashboard-main').style.display = 'none';
+            document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+            document.getElementById('login-page').style.display = 'flex';
+            
+            document.getElementById('user').value = '';
+            document.getElementById('pass').value = '';
+            document.getElementById('inputAdminName').value = '';
         }
     }
 
+    // --- FUNGSI NAVIGASI ---
+    function switchPage(pageId) {
+        document.getElementById('dashboard-main').style.display = 'none';
+        document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+        document.getElementById(pageId).style.display = 'block';
+    }
+
+    function backToDashboard() {
+        document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+        document.getElementById('dashboard-main').style.display = 'block';
+    }
+
+    // --- FUNGSI CETAK STRUK ---
+    function cetakStruk() {
+        const namaKasir = currentUser.name || "Admin"; 
+        document.getElementById('printKasir').innerText = namaKasir;
+        document.getElementById('printWaktu').innerText = new Date().toLocaleString();
+
+        const originalContent = document.body.innerHTML;
+        const printContent = document.getElementById('printArea').innerHTML;
+
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+        document.getElementById('printArea').style.display = 'none';
+    }
+
+    // --- FUNGSI WA ---
     function kirimKeWA() {
         const pesan = "Halo Owner, ini laporan pembukuan hari ini: [Data Transaksi...]";
         const url = `https://wa.me/6287735376239?text=${encodeURIComponent(pesan)}`;
         window.open(url, '_blank');
     }
-  </script>
-</body>
-</html>
 </script>
+
 <!-- Area Struk (Disembunyikan) -->
 <div id="printArea" style="display:none; font-family: monospace; width: 250px; padding: 10px;">
     <div style="text-align: center;">
@@ -206,47 +192,5 @@ function logout() {
     <p>Kasir: <span id="printKasir"></span></p>
     <p style="text-align: center;">Terima Kasih</p>
 </div>
-<script>
-    function login() {
-        // Ambil nilai dari input
-        const user = document.getElementById('user').value.toLowerCase();
-        const pass = document.getElementById('pass').value;
-
-        // Cek login
-        if ((user === 'owner' && pass === 'owner99') || (user === 'admin' && pass === 'admin')) {
-            // Sembunyikan Login, Tampilkan Dashboard
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('dashboard-page').style.display = 'block';
-            
-            // Log untuk debug di console
-            console.log("Login sukses sebagai: " + user);
-        } else {
-            // Jika salah
-            alert('Username atau Password salah!');
-            console.log("Login gagal");
-        }
-    }
-
-  // Fungsi untuk pindah ke halaman spesifik
-function switchPage(pageId) {
-    // 1. Sembunyikan menu utama
-    document.getElementById('dashboard-main').style.display = 'none';
-    
-    // 2. Sembunyikan semua sub-page agar tidak bertumpuk
-    document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
-    
-    // 3. Tampilkan halaman yang dipilih
-    document.getElementById(pageId).style.display = 'block';
-}
-
-// Fungsi untuk kembali ke dashboard utama
-function backToDashboard() {
-    // 1. Sembunyikan semua sub-page
-    document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
-    
-    // 2. Tampilkan kembali menu utama
-    document.getElementById('dashboard-main').style.display = 'block';
-}
-</script>
 </body>
 </html>
