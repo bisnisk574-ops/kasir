@@ -20,14 +20,24 @@
       <h2 style="margin-top: 0; margin-bottom: 20px;">MY kasir</h2>
       <input type="text" id="user" placeholder="Username">
       <input type="password" id="pass" placeholder="Password">
+      <input type="text" id="inputAdminName" placeholder="Nama Anda (Admin Jaga)">
       <button onclick="login()">Masuk</button>
     </div>
   </div>
 
   <!-- DASHBOARD UTAMA (Ganti yang lama dengan ini) -->
 <div id="dashboard-main">
-    <div class="header-dash">
+<div class="header-dash" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
         <h2 id="welcomeMsg">Selamat Datang</h2>
+        <p>Admin Jaga: <span id="displayAdminName">-</span></p>
+    </div>
+    <!-- TOMBOL LOGOUT -->
+    <button onclick="logout()" style="width: auto; padding: 8px 15px; background: #ef4444; border: none; color: white; border-radius: 5px; cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+    </button>
+</div>
+  
         <p>MY Kasir</p>
     </div>
 
@@ -41,19 +51,19 @@
             <p>Stok Barang</p>
         </div>
         <div class="menu-item" onclick="switchPage('page-tambah-stok')">
-            <i class="fa-solid fa-circle-plus fa-4x" style="color: #4f46e5;"></i>
+            <i class="fa-solid fa-circle-plus fa-4x" style="color: #f59e0b;"></i>
             <p>Tambah Stok</p>
         </div>
         <div class="menu-item" onclick="switchPage('page-pembukuan-harian')">
-            <i class="fa-solid fa-clipboard-list fa-4x" style="color: #4f46e5;"></i>
+            <i class="fa-solid fa-clipboard-list fa-4x" style="color: #8b5cf6;"></i>
             <p>Pembukuan Harian</p>
         </div>
         <div class="menu-item owner-only hidden" onclick="switchPage('page-analisa')">
-            <i class="fa-solid fa-chart-column fa-4x" style="color: #4f46e5;"></i>
+            <i class="fa-solid fa-chart-column fa-4x" style="color: #ec4899;"></i>
             <p>Analisa</p>
         </div>
         <div class="menu-item owner-only hidden" onclick="switchPage('page-pembukuan-full')">
-            <i class="fa-solid fa-file-signature fa-4x" style="color: #4f46e5;"></i>
+            <i class="fa-solid fa-file-signature fa-4x" style="color: #ef4444;"></i>
             <p>Laporan Bulanan</p>
         </div>
 </div>
@@ -107,21 +117,48 @@
   <script>
     let currentUser = { name: '', role: '' };
 
-    // Fungsi Login
-    function login() {
-        const u = document.getElementById('user').value.toLowerCase();
-        const p = document.getElementById('pass').value;
+// Fungsi Login Diperbarui
+function login() {
+    const u = document.getElementById('user').value.toLowerCase();
+    const p = document.getElementById('pass').value;
+    const namaAdmin = document.getElementById('inputAdminName').value;
 
-        if (u === 'owner' && p === 'owner99') {
-            currentUser = { name: 'Owner', role: 'owner' };
-            initDashboard();
-        } else if (u === 'admin' && p === 'admin') {
-            currentUser = { name: 'Admin', role: 'admin' };
-            initDashboard();
-        } else {
-            alert('Username atau Password salah!');
-        }
+    if (namaAdmin === "") {
+        alert("Mohon isi nama admin yang berjaga!");
+        return;
     }
+
+    if ((u === 'admin' && p === 'admin') || (u === 'owner' && p === 'owner99')) {
+        // Tampilkan Nama Admin
+        document.getElementById('displayAdminName').innerText = namaAdmin;
+        document.getElementById('welcomeMsg').innerText = "Halo, " + namaAdmin;
+
+        // Pindah ke Dashboard
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('dashboard-main').style.display = 'block';
+    } else {
+        alert('Username atau Password salah!');
+    }
+}
+
+// Fungsi Logout Baru
+function logout() {
+    if (confirm("Apakah Anda yakin ingin keluar?")) {
+        // 1. Sembunyikan Dashboard, Tampilkan Login
+        document.getElementById('dashboard-main').style.display = 'none';
+        document.getElementById('login-page').style.display = 'flex';
+        
+        // 2. Sembunyikan semua sub-page agar bersih
+        document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+        
+        // 3. Reset input login
+        document.getElementById('user').value = '';
+        document.getElementById('pass').value = '';
+        document.getElementById('inputAdminName').value = '';
+        
+        console.log("User telah logout");
+    }
+}
 
     function initDashboard() {
         document.getElementById('login-page').style.display = 'none';
