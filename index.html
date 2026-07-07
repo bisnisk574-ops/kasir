@@ -25,15 +25,19 @@
     </div>
   </div>
 
-  <!-- DASHBOARD UTAMA (Ganti yang lama dengan ini) -->
-<div id="dashboard-main">
-<div class="header-dash" style="display: flex; justify-content: space-between; align-items: center;">
-    <div>
-        <h2 id="welcomeMsg">Selamat Datang</h2>
-        <p>Admin Jaga: <span id="displayAdminName">-</span></p>
-        <p>MY Kasir</p>
+<!-- DASHBOARD UTAMA -->
+<div id="dashboard-main" style="display:none;">
+    <div class="header-dash" style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+        <div>
+            <h2 id="welcomeMsg">Selamat Datang</h2>
+            <p>Admin Jaga: <span id="displayAdminName">-</span></p>
+            <p>MY Kasir</p>
+        </div>
+        <!-- Tombol Logout pindah ke sini agar rapi -->
+        <button onclick="logout()" style="background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+        </button>
     </div>
-</div>
   
     <div class="grid-menu">
         <div class="menu-item" onclick="switchPage('page-transaksi')">
@@ -41,7 +45,7 @@
             <p>Transaksi</p>
         </div>
         <div class="menu-item" onclick="switchPage('page-stok')">
-            <i class="fa-solid fa-solid fa-layer-group fa-4x" style="color: #10b981;"></i>
+            <i class="fa-solid fa-layer-group fa-4x" style="color: #10b981;"></i>
             <p>Stok Barang</p>
         </div>
         <div class="menu-item" onclick="switchPage('page-tambah-stok')">
@@ -60,9 +64,10 @@
             <i class="fa-solid fa-file-signature fa-4x" style="color: #ef4444;"></i>
             <p>Laporan Bulanan</p>
         </div>
+    </div>
 </div>
 
-<!-- HALAMAN SUB-PAGE (Daftar semua halaman di sini) -->
+<!-- HALAMAN SUB-PAGE (Setiap ID sudah unik sekarang!) -->
 <div id="page-transaksi" class="sub-page" style="display:none;">
     <h2>Halaman Transaksi</h2>
     <button onclick="backToDashboard()">Kembali</button>
@@ -73,26 +78,24 @@
     <button onclick="backToDashboard()">Kembali</button>
 </div>
 
- <div id="page-stok" class="sub-page" style="display:none;">
+<div id="page-tambah-stok" class="sub-page" style="display:none;">
     <h2>Halaman Tambah Stok</h2>
     <button onclick="backToDashboard()">Kembali</button>
 </div>
 
-<div id="page-stok" class="sub-page" style="display:none;">
+<div id="page-pembukuan-harian" class="sub-page" style="display:none;">
     <h2>Halaman Pembukuan Harian</h2>
     <button onclick="backToDashboard()">Kembali</button>
 </div>
 
-<div id="page-stok" class="sub-page" style="display:none;">
+<div id="page-analisa" class="sub-page" style="display:none;">
     <h2>Halaman Analisa</h2>
     <button onclick="backToDashboard()">Kembali</button>
 </div>
 
- <div id="page-stok" class="sub-page" style="display:none;">
-    <h2>Halaman Laporan Bulana</h2>
+<div id="page-pembukuan-full" class="sub-page" style="display:none;">
+    <h2>Halaman Laporan Bulanan</h2>
     <button onclick="backToDashboard()">Kembali</button>
-</div>
- </div>
 </div>
 
   <!-- Area Struk (Tersembunyi) -->
@@ -121,26 +124,21 @@ function login() {
     const p = document.getElementById('pass').value;
     const namaAdmin = document.getElementById('inputAdminName').value;
 
-    // Pengecekan 1: Apakah nama admin diisi?
     if (namaAdmin === "") {
         alert("Mohon isi nama admin yang berjaga!");
         return;
     }
 
-    // Cek Username & Password
     if ((u === 'admin' && p === 'admin') || (u === 'owner' && p === 'owner99')) {
         
-        // Pengecekan 2: Update Teks Admin
+        // Update Nama Admin
         const spanNama = document.getElementById('displayAdminName');
-        
         if (spanNama) {
-            spanNama.innerText = namaAdmin; // Mengubah "-" menjadi nama
-            console.log("Nama admin berhasil diupdate ke: " + namaAdmin);
-        } else {
-            console.error("ID displayAdminName tidak ditemukan di HTML!");
+            spanNama.innerText = namaAdmin;
+            document.getElementById('welcomeMsg').innerText = "Selamat Datang, " + namaAdmin;
         }
 
-        // Pindah Halaman
+        // Pindah ke Dashboard
         document.getElementById('login-page').style.display = 'none';
         document.getElementById('dashboard-main').style.display = 'block';
         
