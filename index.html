@@ -24,40 +24,72 @@
     </div>
   </div>
 
-  <!-- HALAMAN 2: DASHBOARD -->
-  <div id="dashboard-page" style="display:none;">
+  <!-- DASHBOARD UTAMA (Ganti yang lama dengan ini) -->
+<div id="dashboard-main">
     <div class="header-dash">
-      <h2 id="welcomeMsg">Selamat Datang</h2>
-      <p>MY Kasir</p>
+        <h2 id="welcomeMsg">Selamat Datang</h2>
+        <p>MY Kasir</p>
     </div>
 
     <div class="grid-menu">
-        <div class="menu-item" onclick="openMenu('transaksi')">
-            <i class="fa-solid fa-cash-register fa-2x" style="color: #4f46e5;"></i>
+        <div class="menu-item" onclick="switchPage('page-transaksi')">
+            <i class="fa-solid fa-cash-register fa-4x" style="color: #4f46e5;"></i>
             <p>Transaksi</p>
         </div>
-        <div class="menu-item" onclick="openMenu('stok')">
-            <i class="fa-solid fa-boxes-stacked fa-2x" style="color: #10b981;"></i>
+        <div class="menu-item" onclick="switchPage('page-stok')">
+            <i class="fa-solid fa-boxes-stacked fa-4x" style="color: #10b981;"></i>
             <p>Stok Barang</p>
         </div>
-        <div class="menu-item" onclick="openMenu('tambahstok')">
-            <i class="fa-solid fa-plus-circle fa-2x" style="color: #f59e0b;"></i>
+        <div class="menu-item" onclick="switchPage('page-tambah-stok')">
+            <i class="fa-solid fa-cash-register fa-4x" style="color: #4f46e5;"></i>
             <p>Tambah Stok</p>
         </div>
-        <div class="menu-item" onclick="openMenu('pembukuan-hari')">
-            <i class="fa-solid fa-book-open fa-2x" style="color: #8b5cf6;"></i>
-            <p>Pembukuan Hari</p>
+        <div class="menu-item" onclick="switchPage('page-pembukuan-harian')">
+            <i class="fa-solid fa-cash-register fa-4x" style="color: #4f46e5;"></i>
+            <p>Pembukuan Harian</p>
         </div>
-        <div class="menu-item owner-only hidden" onclick="openMenu('analisa')">
-            <i class="fa-solid fa-chart-line fa-2x" style="color: #ec4899;"></i>
+        <div class="menu-item owner-only hidden" onclick="switchPage('page-analisa')">
+            <i class="fa-solid fa-cash-register fa-4x" style="color: #4f46e5;"></i>
             <p>Analisa</p>
         </div>
-        <div class="menu-item owner-only hidden" onclick="openMenu('pembukuan-full')">
-            <i class="fa-solid fa-file-invoice-dollar fa-2x" style="color: #ef4444;"></i>
+        <div class="menu-item owner-only hidden" onclick="switchPage('page-pembukuan-full')">
+            <i class="fa-solid fa-cash-register fa-4x" style="color: #4f46e5;"></i>
             <p>Laporan Bulanan</p>
         </div>
-    </div>
-  </div>
+</div>
+
+<!-- HALAMAN SUB-PAGE (Daftar semua halaman di sini) -->
+<div id="page-transaksi" class="sub-page" style="display:none;">
+    <h2>Halaman Transaksi</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+
+<div id="page-stok" class="sub-page" style="display:none;">
+    <h2>Halaman Stok Barang</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+
+ <div id="page-stok" class="sub-page" style="display:none;">
+    <h2>Halaman Tambah Stok</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+
+<div id="page-stok" class="sub-page" style="display:none;">
+    <h2>Halaman Pembukuan Harian</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+
+<div id="page-stok" class="sub-page" style="display:none;">
+    <h2>Halaman Analisa</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+
+ <div id="page-stok" class="sub-page" style="display:none;">
+    <h2>Halaman Laporan Bulana</h2>
+    <button onclick="backToDashboard()">Kembali</button>
+</div>
+ </div>
+</div>
 
   <!-- Area Struk (Tersembunyi) -->
   <div id="printArea" style="display:none; font-family: monospace; width: 250px; padding: 10px;">
@@ -151,6 +183,27 @@
             console.log("Login gagal");
         }
     }
+
+  // Fungsi untuk pindah ke halaman spesifik
+function switchPage(pageId) {
+    // 1. Sembunyikan menu utama
+    document.getElementById('dashboard-main').style.display = 'none';
+    
+    // 2. Sembunyikan semua sub-page agar tidak bertumpuk
+    document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+    
+    // 3. Tampilkan halaman yang dipilih
+    document.getElementById(pageId).style.display = 'block';
+}
+
+// Fungsi untuk kembali ke dashboard utama
+function backToDashboard() {
+    // 1. Sembunyikan semua sub-page
+    document.querySelectorAll('.sub-page').forEach(el => el.style.display = 'none');
+    
+    // 2. Tampilkan kembali menu utama
+    document.getElementById('dashboard-main').style.display = 'block';
+}
 </script>
 </body>
 </html>
