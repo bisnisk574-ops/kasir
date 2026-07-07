@@ -3,77 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kasir SG CELL</title>
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#007bff">
+  <title>Kasir</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans (Modern & Bersih) -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome untuk Ikon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    body { font-family: Arial, sans-serif; margin:0; background:var(--bg); color:var(--text); transition:0.3s; }
-    :root { --bg:#fff; --text:#000; }
-    body.dark { --bg:#121212; --text:#eaeaea; }
-    header { background:#007bff; color:white; padding:10px; text-align:center; position:relative; }
-    nav { display:flex; justify-content:space-around; background:#f0f0f0; padding:5px; }
-    nav button { padding:8px 12px; border:none; background:#007bff; color:white; border-radius:5px; }
-    section { display:none; padding:15px; }
-    section.active { display:block; }
-    textarea { width:100%; margin-top:10px; }
-    .burger { position:absolute; right:10px; top:10px; background:none; border:none; font-size:20px; color:white; }
-    .menu { display:none; position:absolute; right:10px; top:40px; background:white; border:1px solid #ccc; padding:10px; }
-    .menu a { display:block; margin:5px 0; }
+    :root { --primary: #4f46e5; --bg: #f3f4f6; --text: #1f2937; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+    
+    header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+    
+    nav { display: flex; justify-content: center; gap: 10px; padding: 15px; background: white; border-bottom: 1px solid #e5e7eb; }
+    nav button { padding: 10px 16px; border: none; background: #e5e7eb; border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+    nav button.active { background: var(--primary); color: white; }
+
+    section { display: none; padding: 20px; max-width: 500px; margin: 0 auto; }
+    section.active { display: block; animation: fadeIn 0.3s; }
+    
+    .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+    input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #d1d5db; border-radius: 10px; box-sizing: border-box; }
+    button.btn-utama { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Kasir SG CELL</h1>
-    <button class="burger" onclick="toggleMenu()">☰</button>
-    <div class="menu" id="burgerMenu">
-      <a href="#">Pembelian</a>
-      <a href="#">Hutang Piutang</a>
-      <a href="#">Stock Barang</a>
-      <a href="#">Audit Stock</a>
-      <a href="#" onclick="toggleDark()">Dark/Light Mode</a>
-    </div>
+    <h1 style="margin:0; font-size: 1.5rem;">Kasir</h1>
   </header>
 
   <nav>
-    <button onclick="showPage('transaksi')">Transaksi</button>
-    <button onclick="showPage('history')">History</button>
-    <button onclick="showPage('rekap')">Rekap</button>
+    <button class="active" onclick="showPage('transaksi', this)"><i class="fa-solid fa-cash-register"></i> Transaksi</button>
+    <button onclick="showPage('history', this)"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
+    <button onclick="showPage('rekap', this)"><i class="fa-solid fa-chart-pie"></i> Rekap</button>
   </nav>
 
-  <!-- Transaksi -->
+  <!-- Halaman Transaksi -->
   <section id="transaksi" class="active">
-    <h2>Transaksi</h2>
-    <input type="text" id="produk" placeholder="Nama produk">
-    <input type="number" id="harga" placeholder="Harga">
-    <button onclick="simpanTransaksi()">Simpan</button>
+    <div class="card">
+      <h3 style="margin-top:0;">Input Penjualan</h3>
+      <input type="text" id="produk" placeholder="Nama produk...">
+      <input type="number" id="harga" placeholder="Harga (Rp)...">
+      <button class="btn-utama" onclick="simpanTransaksi()">Simpan Transaksi</button>
+    </div>
   </section>
 
-  <!-- History -->
+  <!-- Halaman History -->
   <section id="history">
-    <h2>History Penjualan</h2>
-    <ul id="listHistory"></ul>
-    <textarea id="catatan" placeholder="Tambahkan catatan..."></textarea><br>
-    <button onclick="cetakStruk()">🖨 Print</button>
-    <button onclick="shareTxt()">📄 Share TXT</button>
-    <button onclick="sharePng()">🖼 Share PNG</button>
-    <div id="printArea" style="display:none;"></div>
+    <div class="card">
+      <h3 style="margin-top:0;">History</h3>
+      <ul id="listHistory" style="padding-left: 20px;"></ul>
+      <button class="btn-utama" onclick="cetakStruk()"><i class="fa-solid fa-print"></i> Cetak Struk</button>
+    </div>
   </section>
 
-  <!-- Rekap -->
+  <!-- Halaman Rekap -->
   <section id="rekap">
-    <h2>Rekap</h2>
-    <p>Total transaksi: <span id="totalTransaksi">0</span></p>
-    <p>Total omzet: Rp <span id="totalOmzet">0</span></p>
+    <div class="card">
+      <h3>Statistik Penjualan</h3>
+      <p>Total transaksi: <b id="totalTransaksi">0</b></p>
+      <p>Total omzet: Rp <b id="totalOmzet">0</b></p>
+    </div>
   </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="app.js"></script>
   <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("SW registered"))
-        .catch(err => console.log("SW failed", err));
+    function showPage(pageId, btn) {
+      // Hapus kelas active dari semua section dan button
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      
+      // Tampilkan halaman yang dipilih
+      document.getElementById(pageId).classList.add('active');
+      btn.classList.add('active');
     }
   </script>
 </body>
