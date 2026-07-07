@@ -30,17 +30,11 @@
 <div class="header-dash" style="display: flex; justify-content: space-between; align-items: center;">
     <div>
         <h2 id="welcomeMsg">Selamat Datang</h2>
+        <p>Admin Jaga: <span id="displayAdminName">-</span></p>
         <p>MY Kasir</p>
     </div>
-          <p>Admin Jaga:<span id="displayAdminName">-</span></p>
 </div>
   
-    <!-- TOMBOL LOGOUT -->
-    <button onclick="logout()" style="width: auto; padding: 6px 12px; background: #ef4444; border: none; color: white; border-radius: 5px; cursor: pointer;">
-        <i class="fa-solid fa-right-from-bracket"></i> Keluar
-    </button>
-</div>
-
     <div class="grid-menu">
         <div class="menu-item" onclick="switchPage('page-transaksi')">
             <i class="fa-solid fa-receipt fa-4x" style="color: #4f46e5;"></i>
@@ -114,6 +108,11 @@
       <p style="text-align: center;">Terima Kasih</p>
   </div>
 
+      <!-- TOMBOL LOGOUT -->
+    <button onclick="logout()" style="width: auto; padding: 6px 12px; background: #ef4444; border: none; color: white; border-radius: 5px; cursor: pointer;">
+        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+    </button>
+
   <script>
     let currentUser = { name: '', role: '' };
 
@@ -122,26 +121,29 @@ function login() {
     const p = document.getElementById('pass').value;
     const namaAdmin = document.getElementById('inputAdminName').value;
 
-    console.log("Mencoba login dengan nama:", namaAdmin); // Debugging: Cek di F12 Console
-
+    // Pengecekan 1: Apakah nama admin diisi?
     if (namaAdmin === "") {
         alert("Mohon isi nama admin yang berjaga!");
         return;
     }
 
+    // Cek Username & Password
     if ((u === 'admin' && p === 'admin') || (u === 'owner' && p === 'owner99')) {
-        // --- INI BAGIAN PENTING ---
-        const spanDisplay = document.getElementById('displayAdminName');
-        if (spanDisplay) {
-            spanDisplay.innerText = namaAdmin; // Mengganti teks "-" jadi nama
-            console.log("Berhasil mengganti nama admin");
-        } else {
-            console.error("ID displayAdminName tidak ditemukan!"); // Muncul error jika ID salah
-        }
         
-        document.getElementById('welcomeMsg').innerText = "Halo, " + namaAdmin;
+        // Pengecekan 2: Update Teks Admin
+        const spanNama = document.getElementById('displayAdminName');
+        
+        if (spanNama) {
+            spanNama.innerText = namaAdmin; // Mengubah "-" menjadi nama
+            console.log("Nama admin berhasil diupdate ke: " + namaAdmin);
+        } else {
+            console.error("ID displayAdminName tidak ditemukan di HTML!");
+        }
+
+        // Pindah Halaman
         document.getElementById('login-page').style.display = 'none';
         document.getElementById('dashboard-main').style.display = 'block';
+        
     } else {
         alert('Username atau Password salah!');
     }
