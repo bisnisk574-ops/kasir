@@ -28,6 +28,12 @@ input, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; b
     z-index: 9999;
 }
 
+button {
+    cursor: pointer;
+    position: relative;
+    z-index: 10; /* Memastikan tombol ada di lapisan paling atas */
+}
+
 /* Sub-page - DIPINDAH KELUAR DARI MEDIA PRINT */
 .sub-page {
     padding: 20px;
