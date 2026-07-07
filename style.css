@@ -37,6 +37,7 @@
     text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
     cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px;
 }
+
 .menu-item p { margin: 0; font-weight: 600; font-size: 14px; }
 
     @media print {
@@ -53,4 +54,11 @@
         top: 0; 
         display: block !important; /* Paksa tampil saat print */
     }
+        
+  .sub-page {
+      padding: 20px;
+      background: white;
+      min-height: 100vh;
+   }
+
 }
