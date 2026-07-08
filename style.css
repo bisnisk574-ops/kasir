@@ -31,9 +31,34 @@ body {
     padding: 20px; 
 }
 
-.header-dash { 
-    text-align: center; 
-    padding: 30px 20px; 
+.header-dash {
+    display: flex;
+    flex-direction: column; /* Mengubah arah menjadi vertikal */
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    
+    /* Background Tema Toko (Gradasi Modern) */
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #ffffff; /* Teks putih agar kontras */
+    
+    /* Efek estetika */
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.header-dash h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.header-dash p {
+    margin: 5px 0 0 0;
+    font-size: 1rem;
+    opacity: 0.8; /* Sedikit transparan agar terlihat elegan */
 }
 
 #welcomeMsg { 
@@ -127,4 +152,42 @@ button:hover { opacity: 0.9; }
         display: block !important; 
         width: 100%;
     }
+
+    /* Mengubah container menjadi layout vertikal */
+.grid-menu {
+    display: flex;
+    flex-direction: column; /* Kunci perubahan ke vertikal */
+    gap: 10px;             /* Jarak antar menu */
+    width: 100%;           /* Atau sesuaikan dengan lebar sidebar Anda */
+    max-width: 300px;      /* Contoh batasan lebar */
+}
+
+/* Mengatur agar ikon dan teks sejajar horizontal */
+.menu-item {
+    display: flex;
+    align-items: center;   /* Menjaga ikon dan teks tetap rata tengah */
+    gap: 15px;             /* Jarak antara ikon dan teks */
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;    /* Opsional: menambah efek rounded */
+    transition: background 0.3s;
+}
+
+/* Efek hover agar lebih interaktif */
+.menu-item:hover {
+    background-color: #f3f4f6;
+}
+
+/* Menyesuaikan ukuran ikon agar tidak terlalu besar di tampilan vertikal */
+.menu-item i {
+    font-size: 1.5rem !important; /* Mengubah dari fa-4x menjadi lebih proporsional */
+    width: 30px;                  /* Memberi ruang yang sama untuk tiap ikon */
+    text-align: center;
+}
+
+/* Menghapus margin default pada paragraf agar lebih rapi */
+.menu-item p {
+    margin: 0;
+    font-weight: 500;
+}
     }
